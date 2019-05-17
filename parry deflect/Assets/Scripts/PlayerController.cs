@@ -14,16 +14,14 @@ public class PlayerController : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
 		rb = GetComponent<Rigidbody2D>();
-		rbVel = rb.velocity;
+		rbVel = new Vector2();
 		vel = new Vector2();
 
 	}
 
 	// Called during physics
 	void FixedUpdate() {
-		rb.velocity.Set(vel.x, rb.velocity.y);
-		Jumped();
-
+		rb.velocity = vel;
 	}
 
 	// Update is called once per frame
@@ -54,6 +52,20 @@ public class PlayerController : MonoBehaviour {
 			AddVel(speed, 0);
 		}
 
+		//W up and down
+		if (Input.GetKeyDown(KeyCode.W)) {
+			AddVel(0, speed);
+		} else if (Input.GetKeyUp(KeyCode.W)) {
+			AddVel(0, -speed);
+		}
+
+		//S up and down
+		if (Input.GetKeyDown(KeyCode.S)) {
+			AddVel(0, -speed);
+		} else if (Input.GetKeyUp(KeyCode.S)) {
+			AddVel(0, speed);
+		}
+
 		//Space up and down
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			jumped = true;
@@ -64,10 +76,17 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	private void Jumped() {
-		if (jumped) {
-			jumped = false;
-		} 
+	private void OnTriggerEnter2D(Collider2D collision) {
+		if (Input.GetKey(KeyCode.Space)) {
+			Debug.Log("HIT");
+			GameObject proj = collision.gameObject;
+			Vector2 projVel = proj.GetComponent<Rigidbody2D>().velocity;
+			proj.GetComponent<Rigidbody2D>().velocity = new Vector2(-projVel.x, -projVel.y);
+		}
+	}
+
+	private void Deflect() {
+
 	}
 
 	private void AddVel(float x, float y) {
