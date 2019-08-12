@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
 
 	Rigidbody2D rigidbody;
+	public static Vector2 currentPosition;
 
 	//movement
 	public float speed = 1.0f;
@@ -36,7 +37,8 @@ public class PlayerController : MonoBehaviour
 		rigidbody.MovePosition(newPosition);
 	}
 
-	private void ResetGame() {
-		new GameState();
+	private void UpdatePosition() {
+		currentPosition = this.transform.position;	
 	}
+
 }
