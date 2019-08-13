@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 		Move();
+		UpdatePosition();
     }
 
 	private void Move() {
